@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Para Nata ❤️</title>
-
 <style>
 body {
     margin: 0;
@@ -13,15 +12,23 @@ body {
     overflow: hidden;
 }
 
-/* FONDO OPTIMIZADO */
-.background {
+/* FONDO: dos capas para crossfade */
+.background, .background2 {
     position: fixed;
     inset: 0;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    animation: fondo 60s infinite;
+    transition: opacity 1s ease-in-out;
     z-index: -2;
+}
+
+.background {
+    opacity: 1;
+}
+
+.background2 {
+    opacity: 0;
 }
 
 /* CAPA OSCURA */
@@ -30,21 +37,6 @@ body {
     inset: 0;
     background: rgba(0,0,0,0.55);
     z-index: -1;
-}
-
-/* ANIMACIÓN DE FOTOS */
-@keyframes fondo {
-    0%   { background-image: url("fotos/1.jpg"); }
-    10%  { background-image: url("fotos/2.jpg"); }
-    20%  { background-image: url("fotos/3.jpg"); }
-    30%  { background-image: url("fotos/4.jpg"); }
-    40%  { background-image: url("fotos/5.jpg"); }
-    50%  { background-image: url("fotos/6.jpg"); }
-    60%  { background-image: url("fotos/7.jpg"); }
-    70%  { background-image: url("fotos/8.jpg"); }
-    80%  { background-image: url("fotos/9.jpg"); }
-    90%  { background-image: url("fotos/10.jpg"); }
-    100% { background-image: url("fotos/1.jpg"); }
 }
 
 /* CONTENEDOR CENTRAL */
@@ -88,11 +80,11 @@ button {
 }
 </style>
 </head>
-
 <body>
 
 <!-- FONDO -->
-<div class="background"></div>
+<div class="background" id="bg1"></div>
+<div class="background2" id="bg2"></div>
 <div class="overlay-dark"></div>
 
 <!-- CONTENIDO CENTRAL -->
@@ -117,7 +109,42 @@ allow="autoplay"></iframe>
 </div>
 
 <script>
-// FUNCION BOTÓN
+// LISTA DE FOTOS
+const fotos = [
+    "fotos/1.jpg",
+    "fotos/2.jpg",
+    "fotos/3.jpg",
+    "fotos/4.jpg",
+    "fotos/5.jpg",
+    "fotos/6.jpg",
+    "fotos/7.jpg",
+    "fotos/8.jpg",
+    "fotos/9.jpg",
+    "fotos/10.jpg"
+];
+
+let i = 0;
+let bg1 = document.getElementById("bg1");
+let bg2 = document.getElementById("bg2");
+let visible = true;
+
+// FUNCION PARA CAMBIAR FONDO
+setInterval(()=>{
+    let nextImage = fotos[i % fotos.length];
+    if(visible){
+        bg2.style.backgroundImage = `url('${nextImage}')`;
+        bg2.style.opacity = 1;
+        bg1.style.opacity = 0;
+    } else {
+        bg1.style.backgroundImage = `url('${nextImage}')`;
+        bg1.style.opacity = 1;
+        bg2.style.opacity = 0;
+    }
+    visible = !visible;
+    i++;
+}, 5000); // cada 5 segundos
+
+// FUNCION BOTON
 function aceptar(){
     document.getElementById("card").innerHTML = `
     <h1>💘 Hacerte la vida más bonita 💘</h1>
@@ -142,9 +169,10 @@ setInterval(()=>{
     setTimeout(()=>h.remove(),5000);
 },250);
 </script>
-
 </body>
 </html>
+
+
 
 
 
