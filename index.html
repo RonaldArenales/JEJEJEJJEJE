@@ -2,46 +2,52 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Para Nata ❤️</title>
 
 <style>
-html, body {
+body {
     margin: 0;
-    height: 100%;
     font-family: 'Segoe UI', sans-serif;
+    height: 100vh;
     overflow: hidden;
-    background: black;
 }
 
-/* CONTENEDOR DE FONDOS */
-#fondos {
+/* FONDO OPTIMIZADO */
+.background {
     position: fixed;
-    inset: 0;
-    z-index: -3;
-}
-
-.fondo {
-    position: absolute;
     inset: 0;
     background-size: cover;
     background-position: center;
-    opacity: 0;
-    transition: opacity 3s ease-in-out;
-}
-
-.fondo.activo {
-    opacity: 1;
-}
-
-/* OSCURECER */
-#oscuro {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.55);
+    background-repeat: no-repeat;
+    animation: fondo 60s infinite;
     z-index: -2;
 }
 
-/* CONTENIDO */
+/* CAPA OSCURA */
+.overlay-dark {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    z-index: -1;
+}
+
+/* ANIMACIÓN DE FOTOS */
+@keyframes fondo {
+    0%   { background-image: url("fotos/1.jpg"); }
+    10%  { background-image: url("fotos/2.jpg"); }
+    20%  { background-image: url("fotos/3.jpg"); }
+    30%  { background-image: url("fotos/4.jpg"); }
+    40%  { background-image: url("fotos/5.jpg"); }
+    50%  { background-image: url("fotos/6.jpg"); }
+    60%  { background-image: url("fotos/7.jpg"); }
+    70%  { background-image: url("fotos/8.jpg"); }
+    80%  { background-image: url("fotos/9.jpg"); }
+    90%  { background-image: url("fotos/10.jpg"); }
+    100% { background-image: url("fotos/1.jpg"); }
+}
+
+/* CONTENEDOR CENTRAL */
 .overlay {
     height: 100vh;
     display: flex;
@@ -51,29 +57,29 @@ html, body {
 
 .card {
     background: rgba(255,255,255,0.15);
-    padding: 40px;
+    padding: 30px;
     border-radius: 20px;
     text-align: center;
     color: white;
-    max-width: 420px;
-    backdrop-filter: blur(4px);
+    max-width: 350px;
+    backdrop-filter: blur(6px);
 }
 
 button {
     background: #ffb3c6;
     border: none;
-    padding: 15px 30px;
+    padding: 12px 25px;
     border-radius: 30px;
-    font-size: 18px;
+    font-size: 16px;
     cursor: pointer;
 }
 
-/* CORAZONES */
+/* CORAZONES FLOTANDO */
 .heart {
     position: fixed;
     color: pink;
-    font-size: 20px;
-    animation: float 6s linear infinite;
+    font-size: 18px;
+    animation: float 5s linear infinite;
 }
 
 @keyframes float {
@@ -85,23 +91,25 @@ button {
 
 <body>
 
-<div id="fondos">
-    <div class="fondo activo" id="f1"></div>
-    <div class="fondo" id="f2"></div>
-</div>
+<!-- FONDO -->
+<div class="background"></div>
+<div class="overlay-dark"></div>
 
-<div id="oscuro"></div>
-
+<!-- CONTENIDO CENTRAL -->
 <div class="overlay">
     <div class="card" id="card">
-        <h1>Nata ❤️</h1>
-        <p>Desde que llegaste a mi vida,<br>todo tiene más sentido.</p>
+        <h1>Mi princesa 👑</h1>
+        <p>
+            Te elegiría en cien vidas, en cien mundos,<br>
+            en cualquier versión de la realidad,<br>
+            siempre te elegiría.
+        </p>
         <h2>¿Quieres ser mi San Valentín? 🌹</h2>
         <button onclick="aceptar()">Sí 💖</button>
     </div>
 </div>
 
-<!-- Música -->
+<!-- MÚSICA -->
 <div id="music" style="display:none;">
 <iframe width="0" height="0"
 src="https://www.youtube.com/embed/7U0JZP0c1nQ?autoplay=1"
@@ -109,78 +117,34 @@ allow="autoplay"></iframe>
 </div>
 
 <script>
-const fotos = [
- "fotos/1.jpg",
- "fotos/2.jpg",
- "fotos/3.jpg",
- "fotos/4.jpg",
- "fotos/5.jpg",
- "fotos/6.jpg",
- "fotos/7.jpg",
- "fotos/8.jpg",
- "fotos/9.jpg"
-];
-
-let i = 0;
-let activo = true;
-
-const f1 = document.getElementById("f1");
-const f2 = document.getElementById("f2");
-
-/* PRE-CARGA */
-let cargadas = 0;
-fotos.forEach(src => {
-    const img = new Image();
-    img.src = src;
-    img.onload = () => {
-        cargadas++;
-        if (cargadas === fotos.length) iniciar();
-    };
-});
-
-function iniciar() {
-    f1.style.backgroundImage = `url(${fotos[0]})`;
-
-    setInterval(() => {
-        i = (i + 1) % fotos.length;
-
-        if (activo) {
-            f2.style.backgroundImage = `url(${fotos[i]})`;
-            f2.classList.add("activo");
-            f1.classList.remove("activo");
-        } else {
-            f1.style.backgroundImage = `url(${fotos[i]})`;
-            f1.classList.add("activo");
-            f2.classList.remove("activo");
-        }
-        activo = !activo;
-    }, 8000);
-}
-
-function aceptar() {
+// FUNCION BOTÓN
+function aceptar(){
     document.getElementById("card").innerHTML = `
-    <h1>💘 Hasta la muerte 💘</h1>
+    <h1>💘 Hacerte la vida más bonita 💘</h1>
     <p>
-    Nata, eres la única mujer<br>
-    de la cual siempre voy a estar enamorado.<br><br>
-    Cada latido de mi corazón lleva tu nombre.<br>
+    El mejor paisaje que he visto en mi vida<br>
+    son tus ojos, porque ningún paisaje<br>
+    podría tener esa perfección.<br><br>
+    Te amo hoy y te amaré el resto de mi vida.<br>
     Contigo hoy, mañana y siempre.
     </p>
     `;
     document.getElementById("music").style.display = "block";
 }
 
-/* corazones */
-setInterval(() => {
-    const h = document.createElement("div");
+// CORAZONES FLOTANDO
+setInterval(()=>{
+    let h = document.createElement("div");
     h.className = "heart";
     h.innerHTML = "❤️";
     h.style.left = Math.random()*100 + "vw";
     document.body.appendChild(h);
-    setTimeout(() => h.remove(), 6000);
-}, 300);
+    setTimeout(()=>h.remove(),5000);
+},250);
 </script>
 
 </body>
 </html>
+
+
 
